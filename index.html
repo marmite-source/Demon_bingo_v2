@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ironman CC Demon Bingo</title>
+<style>
+:root{
+  --bg:#0f1012;--panel:#181a1f;--card:#22252b;--text:#f3f4f6;--muted:#aeb4bd;--border:#3b4049;
+  --locked:#a52a2a;--unlocked:#d97706;--complete:#26964b;--selected:#d5b45b;--board:#d8e5eb;--line:#7d181d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
+.app{max-width:1800px;margin:auto;padding:18px}
+.header{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+h1{margin:0;font-size:clamp(28px,4vw,48px)}
+.subtitle{color:var(--muted);margin-top:5px}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.team{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:14px;min-width:0}
+.team-head{display:flex;justify-content:space-between;align-items:start;gap:10px;flex-wrap:wrap}
+.team-title{font-size:22px;font-weight:800}
+.captains{font-size:13px;color:var(--muted);margin-top:3px}
+.editbar{display:flex;gap:8px;align-items:center}
+.badge{border:1px solid var(--border);border-radius:999px;padding:5px 9px;font-size:12px;color:var(--muted)}
+.btn{background:#16181c;border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:10px;cursor:pointer}
+.btn:hover{border-color:#747b86}
+.board-shell{margin-top:10px;border-radius:14px;overflow:hidden;background:#121418}
+svg{display:block;width:100%;height:auto}
+.seal-ring{fill:none;stroke:#545962;stroke-width:10}
+.seal-inner{fill:var(--board);stroke:var(--line);stroke-width:5}
+.seal-line{stroke:var(--line);stroke-width:5;stroke-linecap:round;opacity:.92}
+.seal-line.minor{stroke-width:3;opacity:.7}
+.node,.trial,.finalseal{cursor:pointer;outline:none}
+.node circle{stroke-width:5}
+.node text{fill:#111;font-weight:900;font-size:16px;pointer-events:none}
+.trial rect{stroke-width:4;rx:8}
+.trial text{fill:#111;font-weight:900;font-size:10px;text-anchor:middle;pointer-events:none}
+.locked circle,.locked rect{fill:#f3cccc;stroke:var(--locked)}
+.unlocked circle,.unlocked rect{fill:#ffe0ae;stroke:var(--unlocked)}
+.completed circle,.completed rect{fill:#c8efd3;stroke:var(--complete)}
+.selected circle,.selected rect{stroke:var(--selected)!important;stroke-width:7!important}
+.finalseal polygon{stroke-width:6}
+.finalseal text{pointer-events:none;text-anchor:middle;font-weight:900;fill:#111}
+.finalseal.locked polygon{fill:#efcaca;stroke:var(--locked)}
+.finalseal.unlocked polygon{fill:#ffe0ae;stroke:var(--unlocked)}
+.finalseal.completed polygon{fill:#c8efd3;stroke:var(--complete)}
+.progressline{font-size:12px;color:var(--muted);margin-top:8px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
+.inspector{margin-top:16px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px}
+.inspector-head{display:flex;justify-content:space-between;gap:14px;align-items:start;flex-wrap:wrap}
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:12px;font-weight:800}
+.inspect-title{font-size:26px;font-weight:850;margin-top:3px}
+.requirements{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.req-group{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px}
+.req-group h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+.req{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-top:1px solid #343842}
+.req:first-of-type{border-top:none}
+.req input{margin-top:3px;width:18px;height:18px}
+.req label{line-height:1.35}
+.req small{display:block;color:var(--muted);margin-top:2px}
+.req.readonly{opacity:.78}
+.msg{font-size:13px;color:var(--muted)}
+.modalback{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}
+.modalback.open{display:flex}
+.modal{width:min(420px,100%);background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}
+.modal h2{margin:0 0 10px}
+.modal input{width:100%;background:#111318;border:1px solid var(--border);color:var(--text);padding:12px;border-radius:10px;font-size:16px}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.status-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.stat{font-size:12px;border:1px solid var(--border);border-radius:999px;padding:5px 8px}
+@media(max-width:1100px){.team-grid{grid-template-columns:1fr}.requirements{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div>
+      <h1>Ironman CC — Demon Bingo</h1>
+      <div class="subtitle">Live two-team progress tracker. Click any node, Trial, or Final Seal for details.</div>
+    </div>
+    <button id="refresh" class="btn">Refresh progress</button>
+  </div>
+
+  <div class="team-grid" id="team-grid"></div>
+
+  <section class="inspector" id="inspector">
+    <div class="inspector-head">
+      <div>
+        <div class="kicker" id="inspect-kicker">Select an item</div>
+        <div class="inspect-title" id="inspect-title">Click a node or Trial on either board</div>
+      </div>
+      <div class="msg" id="inspect-status"></div>
+    </div>
+    <div id="inspect-body"></div>
+  </section>
+</div>
+
+<div class="modalback" id="modalback">
+  <div class="modal">
+    <h2 id="modal-title">Unlock editing</h2>
+    <div class="msg">Enter this team's passcode. It is only used when submitting changes.</div>
+    <input id="passcode" type="password" autocomplete="off" placeholder="Team passcode">
+    <div class="msg" id="pass-msg" style="margin-top:8px"></div>
+    <div class="modal-actions">
+      <button class="btn" id="cancel-pass">Cancel</button>
+      <button class="btn" id="save-pass">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TEAMS=[
+ {slug:'fala-marmite',name:'Team Fala & Marmite',captains:'F aladorable & M Armite'},
+ {slug:'ironcg-ravenking',name:'Team IronCG & Ravenking',captains:'IronCG & Ravenking'}
+];
+
+const trials={
+  '1':{name:'Trial of Darkness',nodes:['A','B','E'],objectives:['2m Thieving XP','CAs: “Its Dark Down Here” and “Shadow Dancer”','Doom: 200 Deep Delves','Yama: 180 KC','Obtain a Demon Heart']},
+  '2':{name:'Trial of the Slayer',nodes:['B','C','T'],objectives:['700k Slayer XP','CAs: “Ghost Buster” and “Demonic Rebound”','440 Abyssal Sire KC','540 Cerberus KC','360 Grotesque Guardian KC']},
+  '3':{name:'Trial of Swiftness',nodes:['C','D','O'],objectives:['700k Agility XP','CAs: “Doom Crawler” and “Yama Speed-Chaser”','Complete Dragon Slayer I — Platinum speedrun','Complete Demon Slayer — Platinum speedrun','Complete A Kingdom Divided — Platinum speedrun']},
+  '4':{name:'Trial of Ice',nodes:['N','O','S'],objectives:['Ancient Icon from Muspah','Ice Quartz from Duke','CAs: “Blizzard Dodger” and “Cold Feet”','370 Duke Sucellus KC','450 Nex KC']},
+  '5':{name:'Trial of Trials',nodes:['L','M','N'],objectives:['250 Easy Clues','150 Medium Clues','100 Hard Clues','75 Elite Clues','40 Master Clues']},
+  '6':{name:'Trial of Skilling',nodes:['K','L','R'],objectives:['666k Herblore XP','666k Farming XP','1m Fishing XP','720k Mining XP','1.5m Woodcutting XP']},
+  '7':{name:'Trial of Vampyres',nodes:['I','J','K'],objectives:['5 ToB Purples','One HMT Kit','CA: “Morytania Only”','8 Blood Shards','5 PNM/NM Uniques (No Parasitic Egg)']},
+  '8':{name:'Trial of Tabulation',nodes:['H','I','Q'],objectives:["320 K'ril Tsutsaroth KC","450 Calvar'ion/Vet'ion KC",'666 Thermy KC','66 CoX CMs','66 ToB KC']},
+  '9':{name:'Trial of Faith and Flame',nodes:['F','G','H'],objectives:['1m Prayer XP','2m Firemaking XP','CAs: “The Praying Mantis” and “Demon Whisperer”','5 Purples from CoX (No Arcane/Dexterous)','Complete NMZ Normal Endurance Mode']},
+  '10':{name:'Trial of Forinthry',nodes:['E','F','P'],objectives:['Any Revenant Weapon','Any 3 Odium or Malediction Shards','Teleport Anchoring Scroll','Amulet of Eternal Glory','Any Voidwaker Piece']}
+};
+
+const nodes={
+'1':{name:'Chains',group:'Starting Tile',reqs:['2 Abyssal Whips and 5 Ensouled Abyssal Heads','An Abyssal whip from Unsired','An Abyssal whip from a Superior Abyssal Demon'],unlocks:['A','B','C','D']},
+'2':{name:'Essence',group:'Starting Tile',reqs:['2 Blood Essence from Blood Reavers, 5 Ensouled Hellhound Heads and 5 Ensouled Bloodveld Heads','Blood Essence from Nex','Blood Essence from ToA'],unlocks:['A','E','F','G']},
+'3':{name:'Lesser Slayers',group:'Starting Tile',reqs:['Steel, Mithril and Rune boots from Pyrefiends, Bloodveld and Nechryael','Torstol Seeds from Brimstone Chest','Any Mystic (Dusk) or Broken Hasta from Brimstone Chest'],unlocks:['G','H','I','J']},
+'4':{name:'Headhunt',group:'Starting Tile',reqs:['3 Ensouled Demon Heads from Lesser, Greater and Black demons','2 Unique Contracts for Yama from within the Chasm of Fire','All 5 Unique Contracts for Yama from within the Chasm of Fire'],unlocks:['J','K','L','M']},
+'5':{name:'Clue Fiend',group:'Starting Tile',reqs:['5 Easy/Medium/Hard clues from Ice, Pyre or Water fiends','2 Zamorak Vestments','Imp Mask'],unlocks:['D','O','N','M']},
+'A':{name:'Craftsman',group:'Outer Edge Seal',reqs:['A Bludgeon piece and Zammy Spear','Full Bludgeon (3 pieces)','Hydra Claw'],unlocks:[]},
+'D':{name:'Pen and Paper',group:'Outer Edge Seal',reqs:['Key Master Teleports and a Chromium Ingot','Smouldering Stone','Gold Ring/Vestige'],unlocks:[]},
+'G':{name:'Footsteps',group:'Outer Edge Seal',reqs:['Dragon Boots from a Zamorak Mage','Infinity Boots','Ranger Boots'],unlocks:[]},
+'J':{name:'Jars',group:'Outer Edge Seal',reqs:['Catch a Ninja, Crystal and Dragon Impling','One Jar of Miasma, Smoke, Darkness or Souls','Two Jars'],unlocks:[]},
+'M':{name:'Access & Files',group:'Outer Edge Seal',reqs:['Dossier from Yama and a Moon Key from Doom','5 Dossiers','Open the Moon Chest 5 times'],unlocks:[]},
+'B':{name:'Going Nuclear',group:'Inner Point',reqs:['Occult Necklace','Smoke Battlestaff','Thermy Pet'],unlocks:['P']},
+'C':{name:'Atmosphere',group:'Inner Point',reqs:['Dust or Mist Battlestaff','Both','Eternal Gem or Imbued Heart'],unlocks:['S']},
+'E':{name:'Devotion to Zamorak',group:'Inner Point',reqs:["Zamorak D'hide or Zamorak Rune piece",'Two of each','One full set of either'],unlocks:['T']},
+'F':{name:'Shadow and Light',group:'Inner Point',reqs:["Dark Relic and Saradomin's Light",'3 Dark Relics from CoX','7 Dark Relics from CoX'],unlocks:['Q']},
+'H':{name:'The Bell Tolls',group:'Inner Point',reqs:['Granite Maul','Granite Hammer','Tourmaline Core'],unlocks:['P']},
+'I':{name:'Beast Made Real',group:'Inner Point',reqs:['Goat Horns from Corp.','Spirit Shield','Holy Elixir'],unlocks:['R']},
+'K':{name:'That Which Suffers',group:'Inner Point',reqs:['Synapse or Burning Claw','Two Burning Claws','Three Synapses'],unlocks:['Q']},
+'L':{name:'Scrolls',group:'Inner Point',reqs:['Chasm Teleport Scroll from Yama','Torn Prayer Scroll and either Arcane or Dexterous Prayer Scroll','Imp or Lesser Demon Champion Scroll'],unlocks:['S']},
+'N':{name:'A Devilish Choice',group:'Inner Point',reqs:['Zalcano Shard or Uncut Onyx (from anywhere)','Dragon Pickaxe','Crystal Tool Seed or Demon Feet'],unlocks:['R']},
+'O':{name:'Devotion to Zaros',group:'Inner Point',reqs:["Ancient D'hide or Ancient Rune piece",'Two of each','One full set of either'],unlocks:['T']},
+'P':{name:'Wrong Hound',group:'Inner Pentagram',reqs:['Any 3 of: Unsired, Cerberus Crystal, or Elite Clue from Sire or Cerberus','Any 6','Any 9'],unlocks:['Final Seal']},
+'Q':{name:'Greater Than Your Other Half',group:'Inner Pentagram',reqs:["An Elite clue from either K'ril or Skotizo","A Brimstone Key from either K'ril or Skotizo","Shield Left Half from either K'ril or Skotizo"],unlocks:['Final Seal']},
+'R':{name:'Forinthry Excursion',group:'Inner Pentagram',reqs:['A piece of Chaos Elder Robes',"Dagon'hai piece from Larran's Big Chest","Skull of Vet'ion"],unlocks:['Final Seal']},
+'S':{name:"It's All Business",group:'Inner Pentagram',reqs:['Zenyte Shard or Ballista Piece','2 of either Zenytes or Ballista Pieces','4 of any Zenytes or Ballista Pieces'],unlocks:['Final Seal']},
+'T':{name:'Horns & Plates',group:'Inner Pentagram',reqs:['Any of: Soulflame Horn, Oathplate Piece, Torva Piece or Nihil Horn','3 of any','5 of any'],unlocks:['Final Seal']}
+};
+
+const pos={'1':[350,70],'2':[95,260],'3':[180,565],'4':[520,565],'5':[605,260],'A':[215,120],'B':[320,175],'C':[380,175],'D':[485,120],'E':[180,260],'F':[150,320],'G':[95,405],'H':[210,475],'I':[255,535],'J':[350,625],'K':[445,535],'L':[490,475],'M':[605,405],'N':[550,320],'O':[520,260],'P':[285,320],'Q':[305,405],'R':[395,405],'S':[415,320],'T':[350,260]};
+const trialPos={'1':[240,150],'2':[460,150],'3':[555,395],'4':[350,585],'5':[145,395],'6':[350,215],'7':[500,300],'8':[445,475],'9':[255,475],'10':[200,300]};
+const starting=new Set(['1','2','3','4','5']);
+const prereq={};
+Object.entries(nodes).forEach(([id,n])=>n.unlocks.forEach(x=>{if(nodes[x]){(prereq[x]??=[]).push(id)}}));
+
+let state={};
+let codes={};
+let selection=null;
+let modalTeam=null;
+
+function key(team,type,id,req){return `${team}|${type}|${id}|${req}`}
+function isReqDone(team,type,id,req){return !!state[key(team,type,id,req)]}
+function nodeDone(team,id){return isReqDone(team,'node',id,'0')}
+function nodeUnlocked(team,id){
+ if(starting.has(id)) return true;
+ return (prereq[id]||[]).some(p=>nodeDone(team,p));
+}
+function trialObjectiveCount(team,id){return trials[id].objectives.filter((_,i)=>isReqDone(team,'trial',id,String(i))).length}
+function trialUnlocked(team,id){return trials[id].nodes.every(n=>nodeDone(team,n))}
+function trialDone(team,id){return trialObjectiveCount(team,id)>=3}
+function finalUnlocked(team){return ['P','Q','R','S','T'].every(n=>nodeDone(team,n)) && Object.keys(trials).filter(t=>trialDone(team,t)).length>=5}
+function finalDone(team){return isReqDone(team,'final_seal','final','0')}
+function nodeStatus(team,id){return nodeDone(team,id)?'completed':nodeUnlocked(team,id)?'unlocked':'locked'}
+function trialStatus(team,id){return trialDone(team,id)?'completed':trialUnlocked(team,id)?'unlocked':'locked'}
+function finalStatus(team){return finalDone(team)?'completed':finalUnlocked(team)?'unlocked':'locked'}
+
+function boardSvg(team){
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ svg.setAttribute('viewBox','0 0 700 700');
+ svg.innerHTML=`
+ <circle cx="350" cy="350" r="310" class="seal-ring"/><circle cx="350" cy="350" r="292" class="seal-inner"/>
+ <line x1="350" y1="70" x2="180" y2="565" class="seal-line"/><line x1="350" y1="70" x2="520" y2="565" class="seal-line"/>
+ <line x1="95" y1="260" x2="605" y2="260" class="seal-line"/><line x1="95" y1="260" x2="520" y2="565" class="seal-line"/>
+ <line x1="605" y1="260" x2="180" y2="565" class="seal-line"/><line x1="180" y1="565" x2="605" y2="260" class="seal-line minor"/>
+ <line x1="520" y1="565" x2="95" y2="260" class="seal-line minor"/>`;
+
+ Object.entries(trialPos).forEach(([id,[x,y]])=>{
+   const g=document.createElementNS(svg.namespaceURI,'g');
+   g.setAttribute('class',`trial ${trialStatus(team,id)} ${selection?.team===team&&selection.type==='trial'&&selection.id===id?'selected':''}`);
+   g.setAttribute('transform',`translate(${x} ${y})`);
+   g.innerHTML=`<rect x="-31" y="-15" width="62" height="30" rx="8"/><text y="4">TRIAL ${id}</text>`;
+   g.addEventListener('click',()=>select(team,'trial',id)); svg.appendChild(g);
+ });
+ Object.entries(pos).forEach(([id,[x,y]])=>{
+   const g=document.createElementNS(svg.namespaceURI,'g');
+   g.setAttribute('class',`node ${nodeStatus(team,id)} ${selection?.team===team&&selection.type==='node'&&selection.id===id?'selected':''}`);
+   g.setAttribute('transform',`translate(${x} ${y})`);
+   g.innerHTML=`<circle r="${starting.has(id)?24:21}"/><text text-anchor="middle" dominant-baseline="central">${id}</text>`;
+   g.addEventListener('click',()=>select(team,'node',id)); svg.appendChild(g);
+ });
+ const fg=document.createElementNS(svg.namespaceURI,'g');
+ fg.setAttribute('class',`finalseal ${finalStatus(team)} ${selection?.team===team&&selection.type==='final_seal'?'selected':''}`);
+ fg.innerHTML=`<polygon points="350,305 390,334 375,380 325,380 310,334"/><text x="350" y="344">FINAL</text><text x="350" y="362" font-size="10">SEAL</text>`;
+ fg.addEventListener('click',()=>select(team,'final_seal','final')); svg.appendChild(fg);
+ return svg;
+}
+
+function renderTeams(){
+ const grid=document.getElementById('team-grid');grid.innerHTML='';
+ TEAMS.forEach(t=>{
+   const card=document.createElement('section');card.className='team';
+   const completedNodes=Object.keys(nodes).filter(n=>nodeDone(t.slug,n)).length;
+   const completedTrials=Object.keys(trials).filter(n=>trialDone(t.slug,n)).length;
+   card.innerHTML=`<div class="team-head"><div><div class="team-title">${t.name}</div><div class="captains">${t.captains}</div></div>
+   <div class="editbar"><span class="badge">${codes[t.slug]?'EDIT MODE':'READ ONLY'}</span><button class="btn editbtn">${codes[t.slug]?'Lock editing':'Unlock editing'}</button></div></div>
+   <div class="status-summary"><span class="stat">${completedNodes}/25 nodes</span><span class="stat">${completedTrials}/10 Trials</span><span class="stat">Final Seal: ${finalStatus(t.slug).toUpperCase()}</span></div>
+   <div class="board-shell"></div>
+   <div class="legend"><span><i style="background:var(--locked)"></i>Locked</span><span><i style="background:var(--unlocked)"></i>Unlocked</span><span><i style="background:var(--complete)"></i>Completed</span></div>`;
+   card.querySelector('.board-shell').appendChild(boardSvg(t.slug));
+   card.querySelector('.editbtn').addEventListener('click',()=>{ if(codes[t.slug]){delete codes[t.slug];renderTeams();renderInspector()} else openPass(t.slug)});
+   grid.appendChild(card);
+ });
+}
+
+function select(team,type,id){selection={team,type,id};renderTeams();renderInspector()}
+
+function reqCheckbox(team,type,id,req,text,label){
+ const editable=!!codes[team];
+ const checked=isReqDone(team,type,id,req);
+ return `<div class="req ${editable?'':'readonly'}"><input type="checkbox" data-team="${team}" data-type="${type}" data-id="${id}" data-req="${req}" ${checked?'checked':''} ${editable?'':'disabled'}>
+ <label>${text}<small>${label||''}</small></label></div>`;
+}
+
+function renderInspector(){
+ const kicker=document.getElementById('inspect-kicker'),title=document.getElementById('inspect-title'),body=document.getElementById('inspect-body'),status=document.getElementById('inspect-status');
+ if(!selection){body.innerHTML='';status.textContent='';return}
+ const team=TEAMS.find(t=>t.slug===selection.team);
+ status.textContent=codes[team.slug]?'Editing enabled for this team':'Read only — use Unlock editing on this team board';
+ if(selection.type==='node'){
+   const n=nodes[selection.id], st=nodeStatus(team.slug,selection.id);
+   kicker.textContent=`${team.name} · ${n.group} · ${st.toUpperCase()}`;
+   title.textContent=`${selection.id} — ${n.name}`;
+   body.innerHTML=`<div class="requirements">
+    <div class="req-group"><h3>Node requirements</h3>
+      ${reqCheckbox(team.slug,'node',selection.id,'0',n.reqs[0],'Initial task — completing this turns the node green and unlocks connected nodes.')}
+      ${reqCheckbox(team.slug,'node',selection.id,'1',n.reqs[1],'Level Up 1')}
+      ${reqCheckbox(team.slug,'node',selection.id,'2',n.reqs[2],'Level Up 2')}
+    </div>
+    <div class="req-group"><h3>Unlock information</h3>
+      <div class="msg">Unlocks: ${n.unlocks.length?n.unlocks.join(', '):'No further node unlocks'}</div>
+      <div class="msg" style="margin-top:8px">Progress: ${n.reqs.filter((_,i)=>isReqDone(team.slug,'node',selection.id,String(i))).length}/3 requirements ticked.</div>
+    </div></div>`;
+ }else if(selection.type==='trial'){
+   const t=trials[selection.id], count=trialObjectiveCount(team.slug,selection.id), st=trialStatus(team.slug,selection.id);
+   kicker.textContent=`${team.name} · Trial ${selection.id} · ${st.toUpperCase()}`;
+   title.textContent=t.name;
+   body.innerHTML=`<div class="requirements">
+    <div class="req-group"><h3>Objectives — complete any 3 of 5</h3>
+      ${t.objectives.map((x,i)=>reqCheckbox(team.slug,'trial',selection.id,String(i),x, i<5?'Tracks from the beginning of bingo':'')).join('')}
+    </div>
+    <div class="req-group"><h3>Unlock information</h3>
+      <div class="msg">Requires nodes: ${t.nodes.join(' + ')}</div>
+      <div class="msg" style="margin-top:8px">Objectives complete: ${count}/5. Trial counts as completed at 3/5.</div>
+    </div></div>`;
+ }else{
+   const st=finalStatus(team.slug);
+   kicker.textContent=`${team.name} · ${st.toUpperCase()}`;
+   title.textContent='The Final Seal';
+   body.innerHTML=`<div class="requirements"><div class="req-group"><h3>Unlock condition</h3>
+   <div class="msg">Complete the initial tasks for P, Q, R, S and T, plus any 5 Trials.</div></div>
+   <div class="req-group"><h3>Final completion</h3>
+   ${reqCheckbox(team.slug,'final_seal','final','0','Final Seal challenge completed','Final Seal challenge only counts after it is unlocked.')}
+   </div></div>`;
+ }
+ body.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.addEventListener('change',onToggle));
+}
+
+async function onToggle(e){
+ const cb=e.target, team=cb.dataset.team;
+ if(!codes[team]){cb.checked=!cb.checked;return}
+ cb.disabled=true;
+ try{
+   const res=await fetch('/api/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+     team_slug:team,passcode:codes[team],item_type:cb.dataset.type,item_id:cb.dataset.id,requirement_id:cb.dataset.req,completed:cb.checked
+   })});
+   const j=await res.json();
+   if(!res.ok) throw new Error(j.error||'Update failed');
+   await loadState();
+ }catch(err){
+   alert(err.message); cb.checked=!cb.checked;
+ }finally{cb.disabled=false}
+}
+
+function openPass(team){modalTeam=team;document.getElementById('modal-title').textContent=`Unlock editing — ${TEAMS.find(t=>t.slug===team).name}`;document.getElementById('passcode').value='';document.getElementById('pass-msg').textContent='';document.getElementById('modalback').classList.add('open');document.getElementById('passcode').focus()}
+document.getElementById('cancel-pass').onclick=()=>document.getElementById('modalback').classList.remove('open');
+document.getElementById('save-pass').onclick=()=>{const v=document.getElementById('passcode').value.trim();if(!v){document.getElementById('pass-msg').textContent='Enter a passcode.';return}codes[modalTeam]=v;document.getElementById('modalback').classList.remove('open');renderTeams();renderInspector()};
+document.getElementById('passcode').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('save-pass').click()});
+
+async function loadState(){
+ try{
+   const res=await fetch('/api/state',{cache:'no-store'});
+   const j=await res.json(); if(!res.ok) throw new Error(j.error||'Could not load state');
+   state={};(j.rows||[]).forEach(r=>state[key(r.team_slug,r.item_type,r.item_id,r.requirement_id)]=r.completed);
+   renderTeams();renderInspector();
+ }catch(err){document.getElementById('inspect-status').textContent='Error loading live state: '+err.message}
+}
+document.getElementById('refresh').onclick=loadState;
+setInterval(loadState,15000);
+loadState();
+</script>
+</body>
+</html>
