@@ -9,7 +9,7 @@
   --bg:#0d0f12;--panel:#181b20;--card:#23272e;--text:#f5f6f7;--muted:#adb4bf;--border:#3b424d;
   --locked:#a52a2a;--unlocked:#dc7a0b;--complete:#2b9a50;--selected:#d9b65b;--board:#d9e6ec;--line:#7f1d22;
 }
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
 .app{max-width:1900px;margin:auto;padding:18px}.header{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
 h1{margin:0;font-size:clamp(28px,4vw,48px)}.subtitle{color:var(--muted);margin-top:6px}.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .team{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:14px;min-width:0}.team-head{display:flex;justify-content:space-between;align-items:start;gap:10px;flex-wrap:wrap}
@@ -25,23 +25,28 @@ h1{margin:0;font-size:clamp(28px,4vw,48px)}.subtitle{color:var(--muted);margin-t
 .status-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.stat{font-size:12px;border:1px solid var(--border);border-radius:999px;padding:5px 8px}
 .inspector{margin-top:16px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px}.inspector-head{display:flex;justify-content:space-between;gap:14px;align-items:start;flex-wrap:wrap}
 .kicker{text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:12px;font-weight:800}.inspect-title{font-size:26px;font-weight:900;margin-top:3px}
-.requirements{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.req-group{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px}.req-group h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
-.req{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-top:1px solid #353a43}.req:first-of-type{border-top:none}.req input{margin-top:3px;width:18px;height:18px}.req label{line-height:1.35}.req small{display:block;color:var(--muted);margin-top:2px}.req.readonly{opacity:.78}
-.msg{font-size:13px;color:var(--muted)}.progressbar{height:8px;background:#121418;border-radius:999px;overflow:hidden;margin-top:7px}.progressbar>span{display:block;height:100%;background:var(--complete)}
-.final-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.final-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px}.final-card.done{border-color:var(--complete)}.final-card h3{margin:0 0 8px;font-size:17px}.final-card .summary{font-size:13px;color:var(--muted);margin-bottom:8px}
-.win-banner{margin-top:14px;border:1px solid var(--complete);background:#163120;padding:14px;border-radius:12px;font-weight:900;font-size:20px;text-align:center}
-.hidden{display:none!important}.modalback{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modalback.open{display:flex}.modal{width:min(420px,100%);background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}.modal h2{margin:0 0 10px}.modal input{width:100%;background:#111318;border:1px solid var(--border);color:var(--text);padding:12px;border-radius:10px;font-size:16px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
-@media(max-width:1150px){.team-grid{grid-template-columns:1fr}.requirements,.final-grid{grid-template-columns:1fr}}
+.sections{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;min-width:0}.section.done{border-color:var(--complete)}
+.section h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 9px}.section h3 b{color:var(--text)}
+.branch{border-left:3px solid #434a55;padding-left:10px;margin:8px 0}.branch-title{font-size:13px;font-weight:800;margin-bottom:5px}.branch-status{font-size:11px;color:var(--muted);margin-left:6px}
+.leaf{padding:9px 0;border-top:1px solid #363b44}.leaf:first-child{border-top:none}.leaf-main{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+.leaf-label{font-size:14px;line-height:1.35}.leaf-check{display:flex;align-items:center;gap:7px}.leaf-check input{width:19px;height:19px}
+.qty{display:flex;align-items:center;gap:6px}.qty input{width:90px;background:#121418;border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px}.target{font-size:12px;color:var(--muted);white-space:nowrap}
+.note-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;margin-top:7px}.note-row input{width:100%;background:#15181d;border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px;font-size:14px}.save{padding:7px 9px;font-size:12px}
+.readonly{opacity:.72}.progressbar{height:7px;background:#121418;border-radius:999px;overflow:hidden;margin-top:8px}.progressbar>span{display:block;height:100%;background:var(--complete)}
+.msg{font-size:13px;color:var(--muted)}.trial-grid,.final-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.objective,.final-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px}.objective.done,.final-card.done{border-color:var(--complete)}
+.objective h3,.final-card h3{margin:0 0 6px;font-size:16px}.summary{font-size:12px;color:var(--muted);margin-bottom:6px}.win-banner{margin-top:14px;border:1px solid var(--complete);background:#163120;padding:14px;border-radius:12px;font-weight:900;font-size:20px;text-align:center}
+.modalback{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modalback.open{display:flex}.modal{width:min(420px,100%);background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}.modal h2{margin:0 0 10px}.modal input{width:100%;background:#111318;border:1px solid var(--border);color:var(--text);padding:12px;border-radius:10px;font-size:16px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+@media(max-width:1150px){.team-grid{grid-template-columns:1fr}.sections{grid-template-columns:1fr}.trial-grid,.final-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <div><h1>Ironman CC — Demon Bingo</h1><div class="subtitle">Live head-to-head progress tracker. Click any node, Trial, or Final Seal.</div></div>
+    <div><h1>Ironman CC — Demon Bingo</h1><div class="subtitle">Live head-to-head tracker with per-player notes and detailed sub-objectives.</div></div>
     <button id="refresh" class="btn">Refresh progress</button>
   </div>
   <div class="team-grid" id="team-grid"></div>
-  <section class="inspector" id="inspector">
+  <section class="inspector">
     <div class="inspector-head">
       <div><div class="kicker" id="inspect-kicker">Select an item</div><div class="inspect-title" id="inspect-title">Click a node or Trial on either board</div></div>
       <div class="msg" id="inspect-status"></div>
@@ -49,10 +54,11 @@ h1{margin:0;font-size:clamp(28px,4vw,48px)}.subtitle{color:var(--muted);margin-t
     <div id="inspect-body"></div>
   </section>
 </div>
+
 <div class="modalback" id="modalback">
   <div class="modal">
     <h2 id="modal-title">Unlock editing</h2>
-    <div class="msg">Enter this team's passcode. It is only used when submitting changes.</div>
+    <div class="msg">Enter this team's passcode.</div>
     <input id="passcode" type="password" autocomplete="off" placeholder="Team passcode">
     <div class="msg" id="pass-msg" style="margin-top:8px"></div>
     <div class="modal-actions"><button class="btn" id="cancel-pass">Cancel</button><button class="btn" id="save-pass">Unlock</button></div>
@@ -64,182 +70,290 @@ const TEAMS=[
  {slug:'fala-marmite',name:'New Zealand Patriots',captains:'F aladorable & M Armite'},
  {slug:'ironcg-ravenking',name:'The Looters',captains:'IronCG & Ravenking'}
 ];
-
-const trials={
- '1':{name:'Darkness',nodes:['A','B','E'],objectives:['2m Thieving XP','CAs: “Its Dark Down Here” and “Shadow Dancer”','Doom: 200 Deep Delves','Yama: 180 KC','Obtain a Demon Heart']},
- '2':{name:'Slayer',nodes:['B','C','T'],objectives:['700k Slayer XP','CAs: “Ghost Buster” and “Demonic Rebound”','440 Abyssal Sire KC','540 Cerberus KC','360 Grotesque Guardian KC']},
- '3':{name:'Swiftness',nodes:['C','D','O'],objectives:['700k Agility XP','CAs: “Doom Crawler” and “Yama Speed-Chaser”','Complete Dragon Slayer I — Platinum speedrun','Complete Demon Slayer — Platinum speedrun','Complete A Kingdom Divided — Platinum speedrun']},
- '4':{name:'Ice',nodes:['N','O','S'],objectives:['Ancient Icon from Muspah','Ice Quartz from Duke','CAs: “Blizzard Dodger” and “Cold Feet”','370 Duke Sucellus KC','450 Nex KC']},
- '5':{name:'Trials',nodes:['L','M','N'],objectives:['250 Easy Clues','150 Medium Clues','100 Hard Clues','75 Elite Clues','40 Master Clues']},
- '6':{name:'Skilling',nodes:['K','L','R'],objectives:['666k Herblore XP','666k Farming XP','1m Fishing XP','720k Mining XP','1.5m Woodcutting XP']},
- '7':{name:'Vampyres',nodes:['I','J','K'],objectives:['5 ToB Purples','One HMT Kit','CA: “Morytania Only”','8 Blood Shards','5 PNM/NM Uniques (No Parasitic Egg)']},
- '8':{name:'Tabulation',nodes:['H','I','Q'],objectives:["320 K'ril Tsutsaroth KC","450 Calvar'ion/Vet'ion KC",'666 Thermy KC','66 CoX CMs','66 ToB KC']},
- '9':{name:'Faith and Flame',nodes:['F','G','H'],objectives:['1m Prayer XP','2m Firemaking XP','CAs: “The Praying Mantis” and “Demon Whisperer”','5 Purples from CoX (No Arcane/Dexterous)','Complete NMZ Normal Endurance Mode']},
- '10':{name:'Forinthry',nodes:['E','F','P'],objectives:['Any Revenant Weapon','Any 3 Odium or Malediction Shards','Teleport Anchoring Scroll','Amulet of Eternal Glory','Any Voidwaker Piece']}
-};
+const C=(key,label)=>({kind:'check',key,label});
+const Q=(key,label,target)=>({kind:'qty',key,label,target});
+const ALL=(label,...children)=>({kind:'group',mode:'all',label,children});
+const ANY=(label,...children)=>({kind:'group',mode:'any',label,children});
+const SUM=(label,need,...children)=>({kind:'group',mode:'sum',label,need,children});
 
 const nodes={
-'1':{name:'Chains',group:'Starting Tile',reqs:['2 Abyssal Whips and 5 Ensouled Abyssal Heads','An Abyssal whip from Unsired','An Abyssal whip from a Superior Abyssal Demon'],unlocks:['A','B','C','D']},
-'2':{name:'Essence',group:'Starting Tile',reqs:['2 Blood Essence from Blood Reavers, 5 Ensouled Hellhound Heads and 5 Ensouled Bloodveld Heads','Blood Essence from Nex','Blood Essence from ToA'],unlocks:['A','E','F','G']},
-'3':{name:'Lesser Slayers',group:'Starting Tile',reqs:['Steel, Mithril and Rune boots from Pyrefiends, Bloodveld and Nechryael','Torstol Seeds from Brimstone Chest','Any Mystic (Dusk) or Broken Hasta from Brimstone Chest'],unlocks:['G','H','I','J']},
-'4':{name:'Headhunt',group:'Starting Tile',reqs:['3 Ensouled Demon Heads from Lesser, Greater and Black demons','2 Unique Contracts for Yama from within the Chasm of Fire','All 5 Unique Contracts for Yama from within the Chasm of Fire'],unlocks:['J','K','L','M']},
-'5':{name:'Clue Fiend',group:'Starting Tile',reqs:['5 Easy/Medium/Hard clues from Ice, Pyre or Water fiends','2 Zamorak Vestments','Imp Mask'],unlocks:['D','O','N','M']},
-'A':{name:'Craftsman',group:'Outer Edge Seal',reqs:['A Bludgeon piece and Zammy Spear','Full Bludgeon (3 pieces)','Hydra Claw'],unlocks:[]},
-'D':{name:'Pen and Paper',group:'Outer Edge Seal',reqs:['Key Master Teleports and a Chromium Ingot','Smouldering Stone','Gold Ring/Vestige'],unlocks:[]},
-'G':{name:'Footsteps',group:'Outer Edge Seal',reqs:['Dragon Boots from a Zamorak Mage','Infinity Boots','Ranger Boots'],unlocks:[]},
-'J':{name:'Jars',group:'Outer Edge Seal',reqs:['Catch a Ninja, Crystal and Dragon Impling','One Jar of Miasma, Smoke, Darkness or Souls','Two Jars'],unlocks:[]},
-'M':{name:'Access & Files',group:'Outer Edge Seal',reqs:['Dossier from Yama and a Moon Key from Doom','5 Dossiers','Open the Moon Chest 5 times'],unlocks:[]},
-'B':{name:'Going Nuclear',group:'Inner Point',reqs:['Occult Necklace','Smoke Battlestaff','Thermy Pet'],unlocks:['P']},
-'C':{name:'Atmosphere',group:'Inner Point',reqs:['Dust or Mist Battlestaff','Both','Eternal Gem or Imbued Heart'],unlocks:['S']},
-'E':{name:'Devotion to Zamorak',group:'Inner Point',reqs:["Zamorak D'hide or Zamorak Rune piece",'Two of each','One full set of either'],unlocks:['T']},
-'F':{name:'Shadow and Light',group:'Inner Point',reqs:["Dark Relic and Saradomin's Light",'3 Dark Relics from CoX','7 Dark Relics from CoX'],unlocks:['Q']},
-'H':{name:'The Bell Tolls',group:'Inner Point',reqs:['Granite Maul','Granite Hammer','Tourmaline Core'],unlocks:['P']},
-'I':{name:'Beast Made Real',group:'Inner Point',reqs:['Goat Horns from Corp.','Spirit Shield','Holy Elixir'],unlocks:['R']},
-'K':{name:'That Which Suffers',group:'Inner Point',reqs:['Synapse or Burning Claw','Two Burning Claws','Three Synapses'],unlocks:['Q']},
-'L':{name:'Scrolls',group:'Inner Point',reqs:['Chasm Teleport Scroll from Yama','Torn Prayer Scroll and either Arcane or Dexterous Prayer Scroll','Imp or Lesser Demon Champion Scroll'],unlocks:['S']},
-'N':{name:'A Devilish Choice',group:'Inner Point',reqs:['Zalcano Shard or Uncut Onyx (from anywhere)','Dragon Pickaxe','Crystal Tool Seed or Demon Feet'],unlocks:['R']},
-'O':{name:'Devotion to Zaros',group:'Inner Point',reqs:["Ancient D'hide or Ancient Rune piece",'Two of each','One full set of either'],unlocks:['T']},
-'P':{name:'Wrong Hound',group:'Inner Pentagram',reqs:['Any 3 of: Unsired, Cerberus Crystal, or Elite Clue from Sire or Cerberus','Any 6','Any 9'],unlocks:['Final Seal']},
-'Q':{name:'Greater Than Your Other Half',group:'Inner Pentagram',reqs:["An Elite clue from either K'ril or Skotizo","A Brimstone Key from either K'ril or Skotizo","Shield Left Half from either K'ril or Skotizo"],unlocks:['Final Seal']},
-'R':{name:'Forinthry Excursion',group:'Inner Pentagram',reqs:['A piece of Chaos Elder Robes',"Dagon'hai piece from Larran's Big Chest","Skull of Vet'ion"],unlocks:['Final Seal']},
-'S':{name:"It's All Business",group:'Inner Pentagram',reqs:['Zenyte Shard or Ballista Piece','2 of either Zenytes or Ballista Pieces','4 of any Zenytes or Ballista Pieces'],unlocks:['Final Seal']},
-'T':{name:'Horns & Plates',group:'Inner Pentagram',reqs:['Any of: Soulflame Horn, Oathplate Piece, Torva Piece or Nihil Horn','3 of any','5 of any'],unlocks:['Final Seal']}
+'1':{name:'Chains',group:'Starting Tile',unlocks:['A','B','C','D'],sections:[
+ {name:'Tile',tree:ALL('',Q('whips','Abyssal Whips',2),Q('abby_heads','Ensouled Abyssal Heads',5))},
+ {name:'Level Up 1',tree:C('unsired_whip','Abyssal whip from Unsired')},
+ {name:'Level Up 2',tree:C('superior_whip','Abyssal whip from a Superior Abyssal Demon')}
+]},
+'2':{name:'Essence',group:'Starting Tile',unlocks:['A','E','F','G'],sections:[
+ {name:'Tile',tree:ALL('',Q('reaver_essence','Blood Essence from Blood Reavers',2),Q('hellhound_heads','Ensouled Hellhound Heads',5),Q('bloodveld_heads','Ensouled Bloodveld Heads',5))},
+ {name:'Level Up 1',tree:C('nex_essence','Blood Essence from Nex')},
+ {name:'Level Up 2',tree:C('toa_essence','Blood Essence from ToA')}
+]},
+'3':{name:'Lesser Slayers',group:'Starting Tile',unlocks:['G','H','I','J'],sections:[
+ {name:'Tile',tree:ALL('',C('steel_boots','Steel boots — Pyrefiends'),C('mithril_boots','Mithril boots — Bloodveld'),C('rune_boots','Rune boots — Nechryael'))},
+ {name:'Level Up 1',tree:C('torstol','Torstol Seeds from Brimstone Chest')},
+ {name:'Level Up 2',tree:ANY('Obtain either',C('mystic_dusk','Any Mystic (Dusk) from Brimstone Chest'),C('broken_hasta','Broken Hasta from Brimstone Chest'))}
+]},
+'4':{name:'Headhunt',group:'Starting Tile',unlocks:['J','K','L','M'],sections:[
+ {name:'Tile',tree:ALL('',C('lesser_head','Ensouled Lesser Demon Head'),C('greater_head','Ensouled Greater Demon Head'),C('black_head','Ensouled Black Demon Head'))},
+ {name:'Level Up 1',tree:ALL('First two unique Yama contracts',C('contract1','Yama Contract 1'),C('contract2','Yama Contract 2'))},
+ {name:'Level Up 2',tree:ALL('Remaining three unique Yama contracts',C('contract3','Yama Contract 3'),C('contract4','Yama Contract 4'),C('contract5','Yama Contract 5'))}
+]},
+'5':{name:'Clue Fiend',group:'Starting Tile',unlocks:['D','O','N','M'],sections:[
+ {name:'Tile',tree:Q('fiend_clues','Easy/Medium/Hard clues from Ice/Pyre/Water fiends',5)},
+ {name:'Level Up 1',tree:Q('zammy_vestments','Zamorak Vestments',2)},
+ {name:'Level Up 2',tree:C('imp_mask','Imp Mask')}
+]},
+'A':{name:'Craftsman',group:'Outer Edge Seal',unlocks:[],sections:[
+ {name:'Tile',tree:ALL('',Q('bludgeon_piece','Bludgeon pieces',1),C('zammy_spear','Zamorak Spear'))},
+ {name:'Level Up 1',tree:Q('bludgeon_piece','Bludgeon pieces',3)},
+ {name:'Level Up 2',tree:C('hydra_claw','Hydra Claw')}
+]},
+'D':{name:'Pen and Paper',group:'Outer Edge Seal',unlocks:[],sections:[
+ {name:'Tile',tree:ALL('',C('keymaster','Key Master Teleport'),C('chromium','Chromium Ingot'))},
+ {name:'Level Up 1',tree:C('smouldering','Smouldering Stone')},
+ {name:'Level Up 2',tree:C('gold_ring','Gold Ring / Vestige')}
+]},
+'G':{name:'Footsteps',group:'Outer Edge Seal',unlocks:[],sections:[
+ {name:'Tile',tree:C('dragon_boots','Dragon Boots from a Zamorak Mage')},
+ {name:'Level Up 1',tree:C('infinity_boots','Infinity Boots')},
+ {name:'Level Up 2',tree:C('ranger_boots','Ranger Boots')}
+]},
+'J':{name:'Jars',group:'Outer Edge Seal',unlocks:[],sections:[
+ {name:'Tile',tree:ALL('',C('ninja_impling','Ninja Impling'),C('crystal_impling','Crystal Impling'),C('dragon_impling','Dragon Impling'))},
+ {name:'Level Up 1',tree:Q('qualifying_jars','Qualifying jars (Miasma / Smoke / Darkness / Souls)',1)},
+ {name:'Level Up 2',tree:Q('qualifying_jars','Qualifying jars (Miasma / Smoke / Darkness / Souls)',2)}
+]},
+'M':{name:'Access & Files',group:'Outer Edge Seal',unlocks:[],sections:[
+ {name:'Tile',tree:ALL('',Q('dossiers','Dossiers from Yama',1),C('moon_key','Moon Key from Doom'))},
+ {name:'Level Up 1',tree:Q('dossiers','Dossiers from Yama',5)},
+ {name:'Level Up 2',tree:Q('moon_chests','Moon Chest opens',5)}
+]},
+'B':{name:'Going Nuclear',group:'Inner Point',unlocks:['P'],sections:[
+ {name:'Tile',tree:C('occult','Occult Necklace')},{name:'Level Up 1',tree:C('smoke_staff','Smoke Battlestaff')},{name:'Level Up 2',tree:C('thermy_pet','Thermy Pet')}
+]},
+'C':{name:'Atmosphere',group:'Inner Point',unlocks:['S'],sections:[
+ {name:'Tile',tree:ANY('Obtain either battlestaff',C('dust_staff','Dust Battlestaff'),C('mist_staff','Mist Battlestaff'))},
+ {name:'Level Up 1',tree:ALL('Obtain the other battlestaff too',C('dust_staff','Dust Battlestaff'),C('mist_staff','Mist Battlestaff'))},
+ {name:'Level Up 2',tree:ANY('Obtain either',C('eternal_gem','Eternal Gem'),C('imbued_heart','Imbued Heart'))}
+]},
+'E':{name:'Devotion to Zamorak',group:'Inner Point',unlocks:['T'],sections:[
+ {name:'Tile',tree:ANY('Obtain either',C('zam_dhide','Zamorak D’hide piece'),C('zam_rune','Zamorak Rune piece'))},
+ {name:'Level Up 1',tree:ALL('Two of each',Q('zam_dhide_qty','Zamorak D’hide pieces',2),Q('zam_rune_qty','Zamorak Rune pieces',2))},
+ {name:'Level Up 2',tree:ANY('One full set of either',C('zam_dhide_set','Full Zamorak D’hide set'),C('zam_rune_set','Full Zamorak Rune set'))}
+]},
+'F':{name:'Shadow and Light',group:'Inner Point',unlocks:['Q'],sections:[
+ {name:'Tile',tree:ALL('',Q('cox_dark_relics','Dark Relics from CoX',1),C('saradomin_light',"Saradomin's Light"))},
+ {name:'Level Up 1',tree:Q('cox_dark_relics','Dark Relics from CoX',3)},
+ {name:'Level Up 2',tree:Q('cox_dark_relics','Dark Relics from CoX',7)}
+]},
+'H':{name:'The Bell Tolls',group:'Inner Point',unlocks:['P'],sections:[
+ {name:'Tile',tree:C('granite_maul','Granite Maul')},{name:'Level Up 1',tree:C('granite_hammer','Granite Hammer')},{name:'Level Up 2',tree:C('tourmaline','Tourmaline Core')}
+]},
+'I':{name:'Beast Made Real',group:'Inner Point',unlocks:['R'],sections:[
+ {name:'Tile',tree:C('goat_horns','Goat Horns from Corp.')},{name:'Level Up 1',tree:C('spirit_shield','Spirit Shield')},{name:'Level Up 2',tree:C('holy_elixir','Holy Elixir')}
+]},
+'K':{name:'That Which Suffers',group:'Inner Point',unlocks:['Q'],sections:[
+ {name:'Tile',tree:ANY('Obtain either',Q('synapses','Tormented Synapses',1),Q('burning_claws','Burning Claws',1))},
+ {name:'Level Up 1',tree:Q('burning_claws','Burning Claws',2)},
+ {name:'Level Up 2',tree:Q('synapses','Tormented Synapses',3)}
+]},
+'L':{name:'Scrolls',group:'Inner Point',unlocks:['S'],sections:[
+ {name:'Tile',tree:C('chasm_scroll','Chasm Teleport Scroll from Yama')},
+ {name:'Level Up 1',tree:ALL('',C('torn_prayer','Torn Prayer Scroll'),ANY('Either prayer scroll',C('arcane','Arcane Prayer Scroll'),C('dexterous','Dexterous Prayer Scroll')))},
+ {name:'Level Up 2',tree:ANY('Either Champion Scroll',C('imp_champ','Imp Champion Scroll'),C('lesser_champ','Lesser Demon Champion Scroll'))}
+]},
+'N':{name:'A Devilish Choice',group:'Inner Point',unlocks:['R'],sections:[
+ {name:'Tile',tree:ANY('Obtain either',C('zalcano_shard','Zalcano Shard'),C('uncut_onyx','Uncut Onyx'))},
+ {name:'Level Up 1',tree:C('dragon_pick','Dragon Pickaxe')},
+ {name:'Level Up 2',tree:ANY('Obtain either',C('tool_seed','Crystal Tool Seed'),C('demon_feet','Demon Feet'))}
+]},
+'O':{name:'Devotion to Zaros',group:'Inner Point',unlocks:['T'],sections:[
+ {name:'Tile',tree:ANY('Obtain either',C('ancient_dhide','Ancient D’hide piece'),C('ancient_rune','Ancient Rune piece'))},
+ {name:'Level Up 1',tree:ALL('Two of each',Q('ancient_dhide_qty','Ancient D’hide pieces',2),Q('ancient_rune_qty','Ancient Rune pieces',2))},
+ {name:'Level Up 2',tree:ANY('One full set of either',C('ancient_dhide_set','Full Ancient D’hide set'),C('ancient_rune_set','Full Ancient Rune set'))}
+]},
+'P':{name:'Wrong Hound',group:'Inner Pentagram',unlocks:['Final Seal'],sections:[
+ {name:'Tile',tree:SUM('Any qualifying drops',3,Q('unsired','Unsired',0),Q('cerb_crystal','Cerberus Crystals',0),Q('elite_sire','Elite Clues from Sire',0),Q('elite_cerb','Elite Clues from Cerberus',0))},
+ {name:'Level Up 1',tree:SUM('Any qualifying drops',6,Q('unsired','Unsired',0),Q('cerb_crystal','Cerberus Crystals',0),Q('elite_sire','Elite Clues from Sire',0),Q('elite_cerb','Elite Clues from Cerberus',0))},
+ {name:'Level Up 2',tree:SUM('Any qualifying drops',9,Q('unsired','Unsired',0),Q('cerb_crystal','Cerberus Crystals',0),Q('elite_sire','Elite Clues from Sire',0),Q('elite_cerb','Elite Clues from Cerberus',0))}
+]},
+'Q':{name:'Greater Than Your Other Half',group:'Inner Pentagram',unlocks:['Final Seal'],sections:[
+ {name:'Tile',tree:ANY('Elite clue from either',C('elite_kril','Elite clue from K’ril'),C('elite_skotizo','Elite clue from Skotizo'))},
+ {name:'Level Up 1',tree:ANY('Brimstone Key from either',C('brim_kril','Brimstone Key from K’ril'),C('brim_skotizo','Brimstone Key from Skotizo'))},
+ {name:'Level Up 2',tree:ANY('Shield Left Half from either',C('shield_kril','Shield Left Half from K’ril'),C('shield_skotizo','Shield Left Half from Skotizo'))}
+]},
+'R':{name:'Forinthry Excursion',group:'Inner Pentagram',unlocks:['Final Seal'],sections:[
+ {name:'Tile',tree:C('chaos_elder','Chaos Elder Robe piece')},{name:'Level Up 1',tree:C('dagonhai',"Dagon'hai piece from Larran's Big Chest")},{name:'Level Up 2',tree:C('vetion_skull',"Skull of Vet'ion")}
+]},
+'S':{name:"It's All Business",group:'Inner Pentagram',unlocks:['Final Seal'],sections:[
+ {name:'Tile',tree:SUM('Zenytes + Ballista pieces',1,Q('zenytes','Zenyte Shards',0),Q('ballista','Ballista Pieces',0))},
+ {name:'Level Up 1',tree:SUM('Zenytes + Ballista pieces',2,Q('zenytes','Zenyte Shards',0),Q('ballista','Ballista Pieces',0))},
+ {name:'Level Up 2',tree:SUM('Zenytes + Ballista pieces',4,Q('zenytes','Zenyte Shards',0),Q('ballista','Ballista Pieces',0))}
+]},
+'T':{name:'Horns & Plates',group:'Inner Pentagram',unlocks:['Final Seal'],sections:[
+ {name:'Tile',tree:SUM('Any qualifying item',1,Q('soulflame','Soulflame Horns',0),Q('oathplate','Oathplate Pieces',0),Q('torva','Torva Pieces',0),Q('nihil_horn','Nihil Horns',0))},
+ {name:'Level Up 1',tree:SUM('Any qualifying items',3,Q('soulflame','Soulflame Horns',0),Q('oathplate','Oathplate Pieces',0),Q('torva','Torva Pieces',0),Q('nihil_horn','Nihil Horns',0))},
+ {name:'Level Up 2',tree:SUM('Any qualifying items',5,Q('soulflame','Soulflame Horns',0),Q('oathplate','Oathplate Pieces',0),Q('torva','Torva Pieces',0),Q('nihil_horn','Nihil Horns',0))}
+]}
+};
+
+const trials={
+'1':{name:'Darkness',nodes:['A','B','E'],objectives:[
+ Q('thieving_xp','Thieving XP',2000000),
+ ALL('Combat Achievements',C('dark_down_here','Its Dark Down Here'),C('shadow_dancer','Shadow Dancer')),
+ Q('doom_delves','Doom Deep Delves',200),Q('yama_kc','Yama KC',180),C('demon_heart','Demon Heart')
+]},
+'2':{name:'Slayer',nodes:['B','C','T'],objectives:[
+ Q('slayer_xp','Slayer XP',700000),ALL('Combat Achievements',C('ghost_buster','Ghost Buster'),C('demonic_rebound','Demonic Rebound')),
+ Q('sire_kc','Abyssal Sire KC',440),Q('cerb_kc','Cerberus KC',540),Q('gg_kc','Grotesque Guardian KC',340)
+]},
+'3':{name:'Swiftness',nodes:['C','D','O'],objectives:[
+ Q('agility_xp','Agility XP',700000),ALL('Combat Achievements',C('doom_crawler','Doom Crawler'),C('yama_speed','Yama Speed-Chaser')),
+ C('ds1_gold','Dragon Slayer I — Speedrunning World Gold Time'),C('demon_slayer_gold','Demon Slayer — Speedrunning World Gold Time'),C('akd_gold','A Kingdom Divided — Speedrunning World Gold Time')
+]},
+'4':{name:'Ice',nodes:['N','O','S'],objectives:[
+ C('ancient_icon','Ancient Icon from Muspah'),C('ice_quartz','Ice Quartz from Duke'),ALL('Combat Achievements',C('blizzard','Blizzard Dodger'),C('cold_feet','Cold Feet')),
+ Q('duke_kc','Duke Sucellus KC',370),Q('nex_kc','Nex KC',450)
+]},
+'5':{name:'Trials',nodes:['L','M','N'],objectives:[
+ Q('easy_clues','Easy Clues',250),Q('medium_clues','Medium Clues',150),Q('hard_clues','Hard Clues',100),Q('elite_clues','Elite Clues',75),Q('master_clues','Master Clues',40)
+]},
+'6':{name:'Skilling',nodes:['K','L','R'],objectives:[
+ Q('herblore_xp','Herblore XP',666000),Q('farming_xp','Farming XP',666000),Q('fishing_xp','Fishing XP',1000000),Q('mining_xp','Mining XP',720000),Q('woodcutting_xp','Woodcutting XP',1500000)
+]},
+'7':{name:'Vampyres',nodes:['I','J','K'],objectives:[
+ Q('tob_purples','ToB Purples',5),C('hmt_kit','One HMT Kit'),C('morytania_only','Morytania Only CA'),Q('blood_shards','Blood Shards',8),Q('pnm_uniques','PNM/NM Uniques (No Parasitic Egg)',5)
+]},
+'8':{name:'Tabulation',nodes:['H','I','Q'],objectives:[
+ Q('kril_kc',"K'ril Tsutsaroth KC",320),Q('wildy_kc',"Calvar'ion/Vet'ion KC",450),Q('thermy_kc','Thermy KC',666),Q('cox_cm','CoX CMs',66),Q('tob_kc','ToB KC',66)
+]},
+'9':{name:'Faith and Flame',nodes:['F','G','H'],objectives:[
+ Q('prayer_xp','Prayer XP',1000000),Q('fm_xp','Firemaking XP',2000000),ALL('Combat Achievements',C('praying_mantis','The Praying Mantis'),C('demon_whisperer','Demon Whisperer')),
+ Q('cox_purples','CoX Purples (No Arcane/Dexterous)',5),C('nmz','Complete NMZ Normal Endurance Mode')
+]},
+'10':{name:'Forinthry',nodes:['E','F','P'],objectives:[
+ C('rev_weapon','Any Revenant Weapon'),Q('odium_malediction','Odium/Malediction Shards',3),C('anchoring','Teleport Anchoring Scroll'),C('eternal_glory','Amulet of Eternal Glory'),C('voidwaker','Any Voidwaker Piece')
+]}
 };
 
 const finalChallenges={
- weaponry:{name:'Weaponry',rule:'Acquire any 13. Each entry may be used only once.',need:13,items:[
- 'Zammy Hilt','Staff of the Dead','Zammy Spear','Steam Battlestaff','Ancient Hilt','Zaryte Crossbow (Nihil Horn + ACB)',
- 'Eye of Ayak','Tormented Synapse','Burning Claws (2)','Abyssal Whip','Abyssal Dagger','Abyssal Bludgeon (3 parts, not unique)',
- 'Infernal Tool (Smouldering Stone + Dragon Pickaxe, Axe or Harpoon)','Four SRA Pieces (do not need to be unique)','Granite Hammer (not Maul)','Smoke Battlestaff',
- 'Elder Maul','Twisted Bow','Dragon Claws','Kodai Insignia + Master Wand',"Dinh's Bulwark",'Dragon Hunter Crossbow','Scythe of Vitur','Ghazri Rapier','Sanguinesti Staff'
- ]},
- timbs:{name:'The Timbs',rule:'Acquire Avernic Treads and any 4 of the 6 upgrades.',special:'timbs',items:['Avernic Treads','Dragon Boots','Ranger Boots','Infinity Boots','Primordial Crystal','Pegasian Crystal','Eternal Crystal']},
- armory:{name:'Armory',rule:'Complete a full equipment set protecting from Zamorak or Ancient God Wars NPCs. Weapon, offhand and ring are excluded.',special:'all',items:[
- 'Helm / Chest / Legs — any Oathplate, Torva, Virtus, Zamorak/Ancient Vestments, D’hide or Rune Trim',
- 'Cape — Zamorak or Ancient Cloak',
- 'Neck — Zamorak/Ancient Stole or Occult',
- 'Gloves — Zamorak/Ancient D’hide Vambs or Zaryte Vambraces',
- 'Blessing — Ancient or Unholy Blessing'
- ]},
- shards:{name:'Shards',rule:'Get all 9 shards present in Demon Bingo.',special:'all',items:['Oathplate Shards','Nihil Shards','Ecumenical Key Shards','Ancient Shard','Zenyte Shard','Zalcano Shard','Godsword Shard 1','Godsword Shard 2','Godsword Shard 3']},
- servant:{name:'Servant',rule:'Obtain any pet from a boss featured in Demon Bingo.',need:1,items:['Abyssal Orphan','Hellpuppy','Dom','Yami','Baron','Nexling',"K'ril",'Thermy','Skotos','Dusk','Olmlet','Lil Zik',"Vet'ion Jr."]},
- completionist:{name:'Completionist',rule:'Fully level 13/25 Nodes and Master 6/10 Trials.',special:'completionist',items:[]}
+ weaponry:{name:'Weaponry',rule:'Any 13; each one may be used only once.',need:13,items:['Zammy Hilt','Staff of the Dead','Zammy Spear','Steam Battlestaff','Ancient Hilt','Zaryte Crossbow (Nihil Horn + ACB)','Eye of Ayak','Tormented Synapse','Burning Claws (2)','Abyssal Whip','Abyssal Dagger','Abyssal Bludgeon (3 parts, not unique)','Infernal Tool','Four SRA Pieces','Granite Hammer (not Maul)','Smoke Battlestaff','Elder Maul','Twisted Bow','Dragon Claws','Kodai Insignia + Master Wand',"Dinh's Bulwark",'Dragon Hunter Crossbow','Scythe of Vitur','Ghazri Rapier','Sanguinesti Staff']},
+ timbs:{name:'The Timbs',rule:'Avernic Treads and any 4 of 6 upgrades.',special:'timbs',items:['Avernic Treads','Dragon Boots','Ranger Boots','Infinity Boots','Primordial Crystal','Pegasian Crystal','Eternal Crystal']},
+ armory:{name:'Armory',rule:'Complete the full required protection set.',special:'all',items:['Helm / Chest / Legs','Cape','Neck','Gloves','Blessing']},
+ shards:{name:'Shards',rule:'Get all 9 shards.',special:'all',items:['Oathplate Shards','Nihil Shards','Ecumenical Key Shards','Ancient Shard','Zenyte Shard','Zalcano Shard','Godsword Shard 1','Godsword Shard 2','Godsword Shard 3']},
+ servant:{name:'Servant',rule:'Any featured boss pet.',need:1,items:['Abyssal Orphan','Hellpuppy','Dom','Yami','Baron','Nexling',"K'ril",'Thermy','Skotos','Dusk','Olmlet','Lil Zik',"Vet'ion Jr."]},
+ completionist:{name:'Completionist',rule:'Fully Level 13/25 Nodes and Master 6/10 Trials.',special:'completionist',items:[]}
 };
 
 const pos={'1':[350,70],'2':[95,260],'3':[180,565],'4':[520,565],'5':[605,260],'A':[215,120],'B':[320,175],'C':[380,175],'D':[485,120],'E':[180,260],'F':[150,320],'G':[95,405],'H':[210,475],'I':[255,535],'J':[350,625],'K':[445,535],'L':[490,475],'M':[605,405],'N':[550,320],'O':[520,260],'P':[285,320],'Q':[305,405],'R':[395,405],'S':[415,320],'T':[350,260]};
-const starting=new Set(['1','2','3','4','5']);
-const prereq={}; Object.entries(nodes).forEach(([id,n])=>n.unlocks.forEach(x=>{if(nodes[x]) (prereq[x]??=[]).push(id)}));
-
-function centroid(ids){const pts=ids.map(id=>pos[id]);return [pts.reduce((a,p)=>a+p[0],0)/pts.length,pts.reduce((a,p)=>a+p[1],0)/pts.length]}
-const trialPos={}; Object.entries(trials).forEach(([id,t])=>trialPos[id]=centroid(t.nodes));
+const starting=new Set(['1','2','3','4','5']); const prereq={};Object.entries(nodes).forEach(([id,n])=>n.unlocks.forEach(x=>{if(nodes[x])(prereq[x]??=[]).push(id)}));
+const centroid=ids=>{const p=ids.map(i=>pos[i]);return[p.reduce((a,x)=>a+x[0],0)/p.length,p.reduce((a,x)=>a+x[1],0)/p.length]};const trialPos={};Object.entries(trials).forEach(([id,t])=>trialPos[id]=centroid(t.nodes));
 
 let state={},codes={},selection=null,modalTeam=null;
-function key(team,type,id,req){return `${team}|${type}|${id}|${req}`}
-function isReqDone(team,type,id,req){return !!state[key(team,type,id,req)]}
-function nodeDone(team,id){return isReqDone(team,'node',id,'0')}
-function nodeFull(team,id){return [0,1,2].every(i=>isReqDone(team,'node',id,String(i)))}
-function nodeUnlocked(team,id){if(starting.has(id))return true;return (prereq[id]||[]).some(p=>nodeDone(team,p))}
-function trialObjectiveCount(team,id){return trials[id].objectives.filter((_,i)=>isReqDone(team,'trial',id,String(i))).length}
+const sk=(team,type,id,req)=>`${team}|${type}|${id}|${req}`;
+const rec=(team,type,id,req)=>state[sk(team,type,id,req)]||{completed:false,progress_value:0,notes:''};
+function leafDone(team,type,id,leaf){const r=rec(team,type,id,leaf.key);return leaf.kind==='check'?!!r.completed:(r.progress_value||0)>=(leaf.target||0)}
+function sumLeaves(team,type,id,tree){if(tree.kind==='qty')return rec(team,type,id,tree.key).progress_value||0;if(tree.kind==='check')return rec(team,type,id,tree.key).completed?1:0;return tree.children.reduce((a,c)=>a+sumLeaves(team,type,id,c),0)}
+function treeDone(team,type,id,tree){
+ if(tree.kind==='check'||tree.kind==='qty')return leafDone(team,type,id,tree);
+ if(tree.mode==='all')return tree.children.every(c=>treeDone(team,type,id,c));
+ if(tree.mode==='any')return tree.children.some(c=>treeDone(team,type,id,c));
+ if(tree.mode==='sum')return sumLeaves(team,type,id,tree)>=tree.need;
+ return false;
+}
+function nodeSectionDone(team,id,i){return treeDone(team,'node',id,nodes[id].sections[i].tree)}
+function nodeDone(team,id){return nodeSectionDone(team,id,0)}
+function nodeFull(team,id){return nodes[id].sections.every((_,i)=>nodeSectionDone(team,id,i))}
+function nodeUnlocked(team,id){return starting.has(id)||(prereq[id]||[]).some(p=>nodeDone(team,p))}
+function objectiveDone(team,id,i){return treeDone(team,'trial',id,trials[id].objectives[i])}
+function trialCount(team,id){return trials[id].objectives.filter((_,i)=>objectiveDone(team,id,i)).length}
 function trialUnlocked(team,id){return trials[id].nodes.every(n=>nodeDone(team,n))}
-function trialDone(team,id){return trialObjectiveCount(team,id)>=3}
-function trialMastered(team,id){return trialObjectiveCount(team,id)===5}
+function trialDone(team,id){return trialCount(team,id)>=3}
+function trialMastered(team,id){return trialCount(team,id)===5}
 function finalUnlocked(team){return ['P','Q','R','S','T'].every(n=>nodeDone(team,n))&&Object.keys(trials).filter(t=>trialDone(team,t)).length>=5}
+function finalLeafDone(team,ch,i){return rec(team,'final_seal',ch.name,String(i)).completed}
+function finalChallengeDone(team,slug){
+ const ch=finalChallenges[slug];
+ if(ch.special==='timbs')return finalLeafDone(team,ch,0)&&[1,2,3,4,5,6].filter(i=>finalLeafDone(team,ch,i)).length>=4;
+ if(ch.special==='all')return ch.items.every((_,i)=>finalLeafDone(team,ch,i));
+ if(ch.special==='completionist')return Object.keys(nodes).filter(n=>nodeFull(team,n)).length>=13&&Object.keys(trials).filter(t=>trialMastered(team,t)).length>=6;
+ return ch.items.filter((_,i)=>finalLeafDone(team,ch,i)).length>=ch.need;
+}
+function finalChallengeCount(team){return Object.keys(finalChallenges).filter(s=>finalChallengeDone(team,s)).length}
+function finalDone(team){return finalUnlocked(team)&&finalChallengeCount(team)>=3}
 function nodeStatus(team,id){return nodeDone(team,id)?'completed':nodeUnlocked(team,id)?'unlocked':'locked'}
 function trialStatus(team,id){return trialDone(team,id)?'completed':trialUnlocked(team,id)?'unlocked':'locked'}
-function finalItemCount(team,ch){return ch.items.filter((_,i)=>isReqDone(team,'final_seal',ch.name,String(i))).length}
-function challengeDone(team,slug){
- const ch=finalChallenges[slug];
- if(ch.special==='timbs') return isReqDone(team,'final_seal',ch.name,'0') && [1,2,3,4,5,6].filter(i=>isReqDone(team,'final_seal',ch.name,String(i))).length>=4;
- if(ch.special==='all') return ch.items.every((_,i)=>isReqDone(team,'final_seal',ch.name,String(i)));
- if(ch.special==='completionist') return Object.keys(nodes).filter(n=>nodeFull(team,n)).length>=13 && Object.keys(trials).filter(t=>trialMastered(team,t)).length>=6;
- return finalItemCount(team,ch)>=ch.need;
-}
-function finalChallengeCount(team){return Object.keys(finalChallenges).filter(s=>challengeDone(team,s)).length}
-function finalDone(team){return finalUnlocked(team)&&finalChallengeCount(team)>=3}
 function finalStatus(team){return finalDone(team)?'completed':finalUnlocked(team)?'unlocked':'locked'}
 
 function boardSvg(team){
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 700 700');
  svg.innerHTML=`<circle cx="350" cy="350" r="310" class="seal-ring"/><circle cx="350" cy="350" r="292" class="seal-inner"/>
- <line x1="350" y1="70" x2="180" y2="565" class="seal-line"/><line x1="350" y1="70" x2="520" y2="565" class="seal-line"/>
- <line x1="95" y1="260" x2="605" y2="260" class="seal-line"/><line x1="95" y1="260" x2="520" y2="565" class="seal-line"/>
- <line x1="605" y1="260" x2="180" y2="565" class="seal-line"/><line x1="180" y1="565" x2="605" y2="260" class="seal-line minor"/>
- <line x1="520" y1="565" x2="95" y2="260" class="seal-line minor"/>`;
- Object.entries(trialPos).forEach(([id,[x,y]])=>{
-  const g=document.createElementNS(svg.namespaceURI,'g');g.setAttribute('class',`trial ${trialStatus(team,id)} ${selection?.team===team&&selection.type==='trial'&&selection.id===id?'selected':''}`);g.setAttribute('transform',`translate(${x} ${y})`);
-  const label=trials[id].name; const w=Math.max(62,Math.min(110,44+label.length*5));
-  g.innerHTML=`<rect x="${-w/2}" y="-16" width="${w}" height="32" rx="9"/><text y="4">${label}</text>`;g.addEventListener('click',()=>select(team,'trial',id));svg.appendChild(g);
- });
- Object.entries(pos).forEach(([id,[x,y]])=>{
-  const g=document.createElementNS(svg.namespaceURI,'g');g.setAttribute('class',`node ${nodeStatus(team,id)} ${selection?.team===team&&selection.type==='node'&&selection.id===id?'selected':''}`);g.setAttribute('transform',`translate(${x} ${y})`);
-  g.innerHTML=`<circle r="${starting.has(id)?24:21}"/><text text-anchor="middle" dominant-baseline="central">${id}</text>`;g.addEventListener('click',()=>select(team,'node',id));svg.appendChild(g);
- });
- const fg=document.createElementNS(svg.namespaceURI,'g');fg.setAttribute('class',`finalseal ${finalStatus(team)} ${selection?.team===team&&selection.type==='final_seal'?'selected':''}`);
- fg.innerHTML=`<polygon points="350,305 390,334 375,380 325,380 310,334"/><text x="350" y="344">FINAL</text><text x="350" y="362" font-size="10">SEAL</text>`;fg.addEventListener('click',()=>select(team,'final_seal','final'));svg.appendChild(fg);
- return svg;
+ <line x1="350" y1="70" x2="180" y2="565" class="seal-line"/><line x1="350" y1="70" x2="520" y2="565" class="seal-line"/><line x1="95" y1="260" x2="605" y2="260" class="seal-line"/>
+ <line x1="95" y1="260" x2="520" y2="565" class="seal-line"/><line x1="605" y1="260" x2="180" y2="565" class="seal-line"/><line x1="180" y1="565" x2="605" y2="260" class="seal-line minor"/><line x1="520" y1="565" x2="95" y2="260" class="seal-line minor"/>`;
+ Object.entries(trialPos).forEach(([id,[x,y]])=>{const g=document.createElementNS(svg.namespaceURI,'g');g.setAttribute('class',`trial ${trialStatus(team,id)} ${selection?.team===team&&selection.type==='trial'&&selection.id===id?'selected':''}`);g.setAttribute('transform',`translate(${x} ${y})`);const lab=trials[id].name,w=Math.max(64,Math.min(112,44+lab.length*5));g.innerHTML=`<rect x="${-w/2}" y="-16" width="${w}" height="32"/><text y="4">${lab}</text>`;g.onclick=()=>select(team,'trial',id);svg.appendChild(g)});
+ Object.entries(pos).forEach(([id,[x,y]])=>{const g=document.createElementNS(svg.namespaceURI,'g');g.setAttribute('class',`node ${nodeStatus(team,id)} ${selection?.team===team&&selection.type==='node'&&selection.id===id?'selected':''}`);g.setAttribute('transform',`translate(${x} ${y})`);g.innerHTML=`<circle r="${starting.has(id)?24:21}"/><text text-anchor="middle" dominant-baseline="central">${id}</text>`;g.onclick=()=>select(team,'node',id);svg.appendChild(g)});
+ const fg=document.createElementNS(svg.namespaceURI,'g');fg.setAttribute('class',`finalseal ${finalStatus(team)} ${selection?.team===team&&selection.type==='final_seal'?'selected':''}`);fg.innerHTML=`<polygon points="350,305 390,334 375,380 325,380 310,334"/><text x="350" y="344">FINAL</text><text x="350" y="362" font-size="10">SEAL</text>`;fg.onclick=()=>select(team,'final_seal','final');svg.appendChild(fg);return svg;
 }
 function renderTeams(){
  const grid=document.getElementById('team-grid');grid.innerHTML='';
- TEAMS.forEach(t=>{
-  const cNodes=Object.keys(nodes).filter(n=>nodeDone(t.slug,n)).length,cTrials=Object.keys(trials).filter(n=>trialDone(t.slug,n)).length;
-  const card=document.createElement('section');card.className='team';card.innerHTML=`<div class="team-head"><div><div class="team-title">${t.name}</div><div class="captains">${t.captains}</div></div><div class="editbar"><span class="badge">${codes[t.slug]?'EDIT MODE':'READ ONLY'}</span><button class="btn editbtn">${codes[t.slug]?'Lock editing':'Unlock editing'}</button></div></div>
-  <div class="status-summary"><span class="stat">${cNodes}/25 nodes</span><span class="stat">${cTrials}/10 Trials</span><span class="stat">Final Seal: ${finalStatus(t.slug).toUpperCase()}</span></div><div class="board-shell"></div>
-  <div class="legend"><span><i style="background:var(--locked)"></i>Locked</span><span><i style="background:var(--unlocked)"></i>Unlocked</span><span><i style="background:var(--complete)"></i>Completed</span></div>`;
-  card.querySelector('.board-shell').appendChild(boardSvg(t.slug));card.querySelector('.editbtn').onclick=()=>{if(codes[t.slug]){delete codes[t.slug];renderTeams();renderInspector()}else openPass(t.slug)};grid.appendChild(card);
- });
+ TEAMS.forEach(t=>{const card=document.createElement('section');card.className='team';const cn=Object.keys(nodes).filter(n=>nodeDone(t.slug,n)).length,ct=Object.keys(trials).filter(n=>trialDone(t.slug,n)).length;
+ card.innerHTML=`<div class="team-head"><div><div class="team-title">${t.name}</div><div class="captains">${t.captains}</div></div><div class="editbar"><span class="badge">${codes[t.slug]?'EDIT MODE':'READ ONLY'}</span><button class="btn editbtn">${codes[t.slug]?'Lock editing':'Unlock editing'}</button></div></div><div class="status-summary"><span class="stat">${cn}/25 nodes</span><span class="stat">${ct}/10 Trials</span><span class="stat">Final Seal: ${finalStatus(t.slug).toUpperCase()}</span></div><div class="board-shell"></div><div class="legend"><span><i style="background:var(--locked)"></i>Locked</span><span><i style="background:var(--unlocked)"></i>Unlocked</span><span><i style="background:var(--complete)"></i>Completed</span></div>`;
+ card.querySelector('.board-shell').appendChild(boardSvg(t.slug));card.querySelector('.editbtn').onclick=()=>codes[t.slug]?(delete codes[t.slug],renderTeams(),renderInspector()):openPass(t.slug);grid.appendChild(card)});
 }
 function select(team,type,id){selection={team,type,id};renderTeams();renderInspector()}
-function reqCheckbox(team,type,id,req,text,label,disabledExtra=false){
- const editable=!!codes[team]&&!disabledExtra,checked=isReqDone(team,type,id,req);
- return `<div class="req ${editable?'':'readonly'}"><input type="checkbox" data-team="${team}" data-type="${type}" data-id="${id}" data-req="${req}" ${checked?'checked':''} ${editable?'':'disabled'}><label>${text}<small>${label||''}</small></label></div>`;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+function renderLeaf(team,type,id,leaf){
+ const r=rec(team,type,id,leaf.key),editable=!!codes[team],done=leafDone(team,type,id,leaf);
+ let ctl=leaf.kind==='check'?`<div class="leaf-check"><input class="leaf-check-input" type="checkbox" data-team="${team}" data-type="${type}" data-id="${id}" data-key="${leaf.key}" ${r.completed?'checked':''} ${editable?'':'disabled'}><span>${done?'✓':''}</span></div>`:`<div class="qty"><input class="leaf-qty-input" type="number" min="0" step="1" value="${r.progress_value||0}" data-team="${team}" data-type="${type}" data-id="${id}" data-key="${leaf.key}" ${editable?'':'disabled'}><span class="target">${leaf.target>0?'/ '+leaf.target:''}</span></div>`;
+ return `<div class="leaf ${editable?'':'readonly'}"><div class="leaf-main"><div class="leaf-label">${esc(leaf.label)}</div>${ctl}</div><div class="note-row"><input class="leaf-note" value="${esc(r.notes||'')}" placeholder="Completed by / notes" data-team="${team}" data-type="${type}" data-id="${id}" data-key="${leaf.key}" ${editable?'':'disabled'}><button class="btn save leaf-save" data-team="${team}" data-type="${type}" data-id="${id}" data-key="${leaf.key}" ${editable?'':'disabled'}>Save</button></div></div>`;
+}
+function renderTree(team,type,id,tree,depth=0){
+ if(tree.kind==='check'||tree.kind==='qty')return renderLeaf(team,type,id,tree);
+ const done=treeDone(team,type,id,tree);
+ const extra=tree.mode==='sum'?` — ${sumLeaves(team,type,id,tree)}/${tree.need}`:done?' — complete':'';
+ return `<div class="branch"><div class="branch-title">${esc(tree.label|| (tree.mode==='all'?'Complete all':tree.mode==='any'?'Complete any':'Combined total'))}<span class="branch-status">${extra}</span></div>${tree.children.map(c=>renderTree(team,type,id,c,depth+1)).join('')}</div>`;
+}
+function bindEditors(scope){
+ scope.querySelectorAll('.leaf-check-input').forEach(el=>el.addEventListener('change',()=>saveLeaf(el.dataset.team,el.dataset.type,el.dataset.id,el.dataset.key,{completed:el.checked})));
+ scope.querySelectorAll('.leaf-save').forEach(btn=>btn.addEventListener('click',()=>{
+   const wrap=btn.closest('.leaf'),qty=wrap.querySelector('.leaf-qty-input'),chk=wrap.querySelector('.leaf-check-input'),note=wrap.querySelector('.leaf-note');
+   saveLeaf(btn.dataset.team,btn.dataset.type,btn.dataset.id,btn.dataset.key,{completed:chk?chk.checked:undefined,progress_value:qty?Math.max(0,parseInt(qty.value||'0',10)):undefined,notes:note.value});
+ }));
+}
+async function saveLeaf(team,type,id,keyName,patch){
+ if(!codes[team])return;
+ const old=rec(team,type,id,keyName),payload={team_slug:team,passcode:codes[team],item_type:type,item_id:id,requirement_id:keyName,completed:patch.completed??old.completed,progress_value:patch.progress_value??old.progress_value,notes:patch.notes??old.notes};
+ try{const res=await fetch('/api/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const j=await res.json();if(!res.ok)throw new Error(j.error||'Update failed');await loadState()}catch(e){alert(e.message)}
 }
 function renderInspector(){
  const kicker=document.getElementById('inspect-kicker'),title=document.getElementById('inspect-title'),body=document.getElementById('inspect-body'),status=document.getElementById('inspect-status');
  if(!selection){body.innerHTML='';status.textContent='';return}
- const team=TEAMS.find(t=>t.slug===selection.team);status.textContent=codes[team.slug]?'Editing enabled for this team':'Read only — use Unlock editing on this team board';
+ const team=TEAMS.find(t=>t.slug===selection.team);status.textContent=codes[team.slug]?'Editing enabled — update quantities, tick boxes, and save notes':'Read only — unlock this team to edit';
  if(selection.type==='node'){
-  const n=nodes[selection.id],st=nodeStatus(team.slug,selection.id);kicker.textContent=`${team.name} · ${n.group} · ${st.toUpperCase()}`;title.textContent=`${selection.id} — ${n.name}`;
-  const done=n.reqs.filter((_,i)=>isReqDone(team.slug,'node',selection.id,String(i))).length;
-  body.innerHTML=`<div class="requirements"><div class="req-group"><h3>Node requirements</h3>${reqCheckbox(team.slug,'node',selection.id,'0',n.reqs[0],'Initial task — controls node completion and unlocks.')}
-  ${reqCheckbox(team.slug,'node',selection.id,'1',n.reqs[1],'Level Up 1')}${reqCheckbox(team.slug,'node',selection.id,'2',n.reqs[2],'Level Up 2')}</div>
-  <div class="req-group"><h3>Progress</h3><div class="msg">${done}/3 requirements ticked</div><div class="progressbar"><span style="width:${done/3*100}%"></span></div><div class="msg" style="margin-top:10px">Unlocks: ${n.unlocks.length?n.unlocks.join(', '):'No further nodes'}</div></div></div>`;
+  const n=nodes[selection.id];kicker.textContent=`${team.name} · ${n.group} · ${nodeStatus(team.slug,selection.id).toUpperCase()}`;title.textContent=`${selection.id} — ${n.name}`;
+  body.innerHTML=`<div class="sections">${n.sections.map((s,i)=>`<div class="section ${nodeSectionDone(team.slug,selection.id,i)?'done':''}"><h3>${s.name} ${nodeSectionDone(team.slug,selection.id,i)?'<b>✓</b>':''}</h3>${renderTree(team.slug,'node',selection.id,s.tree)}</div>`).join('')}</div>`;
  }else if(selection.type==='trial'){
-  const t=trials[selection.id],count=trialObjectiveCount(team.slug,selection.id),st=trialStatus(team.slug,selection.id);kicker.textContent=`${team.name} · Trial ${selection.id} · ${st.toUpperCase()}`;title.textContent=t.name;
-  body.innerHTML=`<div class="requirements"><div class="req-group"><h3>Objectives — complete any 3 of 5</h3>${t.objectives.map((x,i)=>reqCheckbox(team.slug,'trial',selection.id,String(i),x,'Tracks from the beginning of bingo')).join('')}</div>
-  <div class="req-group"><h3>Unlock & progress</h3><div class="msg">Requires nodes: ${t.nodes.join(' + ')}</div><div class="msg" style="margin-top:10px">${count}/5 objectives complete. Trial completes at 3/5; Mastery is 5/5.</div><div class="progressbar"><span style="width:${count/5*100}%"></span></div></div></div>`;
+  const t=trials[selection.id],count=trialCount(team.slug,selection.id);kicker.textContent=`${team.name} · Trial ${selection.id} · ${trialStatus(team.slug,selection.id).toUpperCase()}`;title.textContent=t.name;
+  body.innerHTML=`<div class="msg" style="margin-top:10px">Requires ${t.nodes.join(' + ')}. Complete any 3 of 5 objectives; 5/5 = Mastered. Current: ${count}/5.</div><div class="trial-grid">${t.objectives.map((o,i)=>`<div class="objective ${objectiveDone(team.slug,selection.id,i)?'done':''}"><h3>Objective ${i+1}${objectiveDone(team.slug,selection.id,i)?' ✓':''}</h3>${renderTree(team.slug,'trial',selection.id,o)}</div>`).join('')}</div>`;
  }else{
   kicker.textContent=`${team.name} · ${finalStatus(team.slug).toUpperCase()}`;title.textContent='The Final Seal';
-  const pn=['P','Q','R','S','T'].filter(n=>nodeDone(team.slug,n)).length,tc=Object.keys(trials).filter(t=>trialDone(team.slug,t)).length;
-  if(!finalUnlocked(team.slug)){
-   body.innerHTML=`<div class="requirements"><div class="req-group"><h3>Locked</h3><div class="msg">The Final Seal challenge remains hidden until the unlock conditions are met.</div></div><div class="req-group"><h3>Unlock progress</h3><div class="msg">P/Q/R/S/T: ${pn}/5 complete</div><div class="msg" style="margin-top:8px">Trials: ${tc}/5 required completed</div></div></div>`;
-  }else{
-   const won=finalChallengeCount(team.slug);
-   let html=`<div class="msg" style="margin-top:12px">Unlocked. Complete any <b>3 of the 6 challenges</b> below to win. Drops obtained before the Final Seal unlocked do not count.</div><div class="final-grid">`;
-   for(const [slug,ch] of Object.entries(finalChallenges)){
-    const cd=challengeDone(team.slug,slug); let inner='';
-    if(ch.special==='completionist'){
-      const fn=Object.keys(nodes).filter(n=>nodeFull(team.slug,n)).length,mt=Object.keys(trials).filter(t=>trialMastered(team.slug,t)).length;
-      inner=`<div class="req"><input type="checkbox" ${cd?'checked':''} disabled><label>Fully level 13/25 Nodes and Master 6/10 Trials<small>${fn}/25 fully levelled · ${mt}/10 mastered</small></label></div>`;
-    }else inner=ch.items.map((x,i)=>reqCheckbox(team.slug,'final_seal',ch.name,String(i),x,'Final Seal progress — only count items after unlock')).join('');
-    const count=ch.special==='completionist'?'':`${finalItemCount(team.slug,ch)}/${ch.items.length}`;
-    html+=`<div class="final-card ${cd?'done':''}"><h3>${ch.name}${cd?' ✓':''}</h3><div class="summary">${ch.rule}${count?` · ${count}`:''}</div>${inner}</div>`;
+  if(!finalUnlocked(team.slug)){const pn=['P','Q','R','S','T'].filter(n=>nodeDone(team.slug,n)).length,tc=Object.keys(trials).filter(t=>trialDone(team.slug,t)).length;body.innerHTML=`<div class="sections"><div class="section"><h3>Locked</h3><div class="msg">Final Seal challenge information is hidden until P/Q/R/S/T and five Trials are complete.</div></div><div class="section"><h3>Unlock progress</h3><div class="msg">P/Q/R/S/T: ${pn}/5<br>Trials: ${tc}/5</div></div></div>`}
+  else{
+   const won=finalChallengeCount(team.slug);let html=`<div class="msg" style="margin-top:10px"><b>Unlocked.</b> Complete any 3 challenges to win. Drops from before unlocking the Final Seal do not count.</div><div class="final-grid">`;
+   for(const [slug,ch] of Object.entries(finalChallenges)){const cd=finalChallengeDone(team.slug,slug);let inner='';
+    if(ch.special==='completionist'){const fn=Object.keys(nodes).filter(n=>nodeFull(team.slug,n)).length,mt=Object.keys(trials).filter(t=>trialMastered(team.slug,t)).length;inner=`<div class="msg">${fn}/25 fully levelled nodes · ${mt}/10 mastered Trials</div>`}
+    else inner=ch.items.map((x,i)=>renderLeaf(team.slug,'final_seal',ch.name,{kind:'check',key:String(i),label:x})).join('');
+    html+=`<div class="final-card ${cd?'done':''}"><h3>${ch.name}${cd?' ✓':''}</h3><div class="summary">${ch.rule}</div>${inner}</div>`;
    }
-   html+=`</div>${won>=3?`<div class="win-banner">🏆 ${team.name} has completed 3 Final Seal challenges — BINGO WON</div>`:`<div class="msg" style="margin-top:12px">Final Seal challenges completed: ${won}/3 required.</div>`}`;
-   body.innerHTML=html;
+   html+=`</div>${won>=3?`<div class="win-banner">🏆 ${team.name} has completed 3 Final Seal challenges — BINGO WON</div>`:`<div class="msg" style="margin-top:12px">Final Seal challenges completed: ${won}/3 required.</div>`}`;body.innerHTML=html;
   }
  }
- body.querySelectorAll('input[type=checkbox][data-team]').forEach(cb=>cb.addEventListener('change',onToggle));
-}
-async function onToggle(e){
- const cb=e.target,team=cb.dataset.team;if(!codes[team]){cb.checked=!cb.checked;return}cb.disabled=true;
- try{const res=await fetch('/api/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({team_slug:team,passcode:codes[team],item_type:cb.dataset.type,item_id:cb.dataset.id,requirement_id:cb.dataset.req,completed:cb.checked})});const j=await res.json();if(!res.ok)throw new Error(j.error||'Update failed');await loadState()}
- catch(err){alert(err.message);cb.checked=!cb.checked}finally{cb.disabled=false}
+ bindEditors(body);
 }
 function openPass(team){modalTeam=team;document.getElementById('modal-title').textContent=`Unlock editing — ${TEAMS.find(t=>t.slug===team).name}`;document.getElementById('passcode').value='';document.getElementById('pass-msg').textContent='';document.getElementById('modalback').classList.add('open');document.getElementById('passcode').focus()}
 document.getElementById('cancel-pass').onclick=()=>document.getElementById('modalback').classList.remove('open');
 document.getElementById('save-pass').onclick=()=>{const v=document.getElementById('passcode').value.trim();if(!v){document.getElementById('pass-msg').textContent='Enter a passcode.';return}codes[modalTeam]=v;document.getElementById('modalback').classList.remove('open');renderTeams();renderInspector()};
 document.getElementById('passcode').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('save-pass').click()});
-async function loadState(){try{const res=await fetch('/api/state',{cache:'no-store'});const j=await res.json();if(!res.ok)throw new Error(j.error||'Could not load state');state={};(j.rows||[]).forEach(r=>state[key(r.team_slug,r.item_type,r.item_id,r.requirement_id)]=r.completed);renderTeams();renderInspector()}catch(err){document.getElementById('inspect-status').textContent='Error loading live state: '+err.message}}
+async function loadState(){try{const res=await fetch('/api/state',{cache:'no-store'});const j=await res.json();if(!res.ok)throw new Error(j.error||'Could not load state');state={};(j.rows||[]).forEach(r=>state[sk(r.team_slug,r.item_type,r.item_id,r.requirement_id)]=r);renderTeams();renderInspector()}catch(e){document.getElementById('inspect-status').textContent='Error loading live state: '+e.message}}
 document.getElementById('refresh').onclick=loadState;setInterval(loadState,15000);loadState();
 </script>
 </body>
