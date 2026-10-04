@@ -7,7 +7,7 @@
 <style>
 :root{
   --bg:#0d0f12;--panel:#181b20;--card:#23272e;--text:#f5f6f7;--muted:#adb4bf;--border:#3b424d;
-  --locked:#a52a2a;--unlocked:#dc7a0b;--complete:#2b9a50;--selected:#d9b65b;--board:#d9e6ec;--line:#7f1d22;
+  --locked:#a52a2a;--unlocked:#dc7a0b;--complete:#2b9a50;--mastered:#ff69b4;--almost:#4da3ff;--selected:#d9b65b;--board:#d9e6ec;--line:#7f1d22;
 }
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
 .app{max-width:1900px;margin:auto;padding:18px}.header{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
@@ -18,7 +18,7 @@ h1{margin:0;font-size:clamp(28px,4vw,48px)}.subtitle{color:var(--muted);margin-t
 .board-shell{margin-top:10px;border-radius:14px;overflow:hidden;background:#121418}.board-shell svg{display:block;width:100%;height:auto}
 .seal-ring{fill:none;stroke:#575d66;stroke-width:10}.seal-inner{fill:var(--board);stroke:var(--line);stroke-width:5}.seal-line{stroke:var(--line);stroke-width:5;stroke-linecap:round;opacity:.92}.seal-line.minor{stroke-width:3;opacity:.68}
 .node,.trial,.finalseal{cursor:pointer;outline:none}.node circle{stroke-width:5}.node text{fill:#111;font-weight:900;font-size:16px;pointer-events:none}.trial rect{stroke-width:4;rx:9}.trial text{fill:#111;font-weight:900;font-size:10px;text-anchor:middle;pointer-events:none}
-.locked circle,.locked rect{fill:#f3cccc;stroke:var(--locked)}.unlocked circle,.unlocked rect{fill:#ffe0ae;stroke:var(--unlocked)}.completed circle,.completed rect{fill:#c8efd3;stroke:var(--complete)}
+.locked circle,.locked rect{fill:#f3cccc;stroke:var(--locked)}.unlocked circle,.unlocked rect{fill:#ffe0ae;stroke:var(--unlocked)}.completed circle,.completed rect{fill:#c8efd3;stroke:var(--complete)}.mastered circle,.mastered rect{fill:#ffd1e8;stroke:var(--mastered)}.almost circle,.almost rect{fill:#cfe5ff;stroke:var(--almost)}
 .selected circle,.selected rect{stroke:var(--selected)!important;stroke-width:7!important}.finalseal polygon{stroke-width:6}.finalseal text{pointer-events:none;text-anchor:middle;font-weight:900;fill:#111}
 .finalseal.locked polygon{fill:#efcaca;stroke:var(--locked)}.finalseal.unlocked polygon{fill:#ffe0ae;stroke:var(--unlocked)}.finalseal.completed polygon{fill:#c8efd3;stroke:var(--complete)}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
@@ -263,6 +263,7 @@ function treeDone(team,type,id,tree){
 function nodeSectionDone(team,id,i){return treeDone(team,'node',id,nodes[id].sections[i].tree)}
 function nodeDone(team,id){return nodeSectionDone(team,id,0)}
 function nodeFull(team,id){return nodes[id].sections.every((_,i)=>nodeSectionDone(team,id,i))}
+function nodeSectionCount(team,id){return nodes[id].sections.filter((_,i)=>nodeSectionDone(team,id,i)).length}
 function nodeUnlocked(team,id){return starting.has(id)||(prereq[id]||[]).some(p=>nodeDone(team,p))}
 function objectiveDone(team,id,i){return treeDone(team,'trial',id,trials[id].objectives[i])}
 function trialCount(team,id){return trials[id].objectives.filter((_,i)=>objectiveDone(team,id,i)).length}
@@ -279,9 +280,9 @@ function finalChallengeDone(team,slug){
  return ch.items.filter((_,i)=>finalLeafDone(team,ch,i)).length>=ch.need;
 }
 function finalChallengeCount(team){return Object.keys(finalChallenges).filter(s=>finalChallengeDone(team,s)).length}
-function finalDone(team){return finalUnlocked(team)&&finalChallengeCount(team)>=3}
-function nodeStatus(team,id){return nodeDone(team,id)?'completed':nodeUnlocked(team,id)?'unlocked':'locked'}
-function trialStatus(team,id){return trialDone(team,id)?'completed':trialUnlocked(team,id)?'unlocked':'locked'}
+function finalDone(team){return finalUnlocked(team)&&finalChallengeCount(team)>=6}
+function nodeStatus(team,id){const c=nodeSectionCount(team,id);return c===3?'mastered':c===2?'almost':c>=1?'completed':nodeUnlocked(team,id)?'unlocked':'locked'}
+function trialStatus(team,id){const c=trialCount(team,id);return c===5?'mastered':c===4?'almost':c>=3?'completed':trialUnlocked(team,id)?'unlocked':'locked'}
 function finalStatus(team){return finalDone(team)?'completed':finalUnlocked(team)?'unlocked':'locked'}
 
 function boardSvg(team){
@@ -296,7 +297,7 @@ function boardSvg(team){
 function renderTeams(){
  const grid=document.getElementById('team-grid');grid.innerHTML='';
  TEAMS.forEach(t=>{const card=document.createElement('section');card.className='team';const cn=Object.keys(nodes).filter(n=>nodeDone(t.slug,n)).length,ct=Object.keys(trials).filter(n=>trialDone(t.slug,n)).length;
- card.innerHTML=`<div class="team-head"><div><div class="team-title">${t.name}</div><div class="captains">${t.captains}</div></div><div class="editbar"><span class="badge">${codes[t.slug]?'EDIT MODE':'READ ONLY'}</span><button class="btn editbtn">${codes[t.slug]?'Lock editing':'Unlock editing'}</button></div></div><div class="status-summary"><span class="stat">${cn}/25 nodes</span><span class="stat">${ct}/10 Trials</span><span class="stat">Final Seal: ${finalStatus(t.slug).toUpperCase()}</span></div><div class="board-shell"></div><div class="legend"><span><i style="background:var(--locked)"></i>Locked</span><span><i style="background:var(--unlocked)"></i>Unlocked</span><span><i style="background:var(--complete)"></i>Completed</span></div>`;
+ card.innerHTML=`<div class="team-head"><div><div class="team-title">${t.name}</div><div class="captains">${t.captains}</div></div><div class="editbar"><span class="badge">${codes[t.slug]?'EDIT MODE':'READ ONLY'}</span><button class="btn editbtn">${codes[t.slug]?'Lock editing':'Unlock editing'}</button></div></div><div class="status-summary"><span class="stat">${cn}/25 nodes</span><span class="stat">${ct}/10 Trials</span><span class="stat">Final Seal: ${finalStatus(t.slug).toUpperCase()}</span></div><div class="board-shell"></div><div class="legend"><span><i style="background:var(--locked)"></i>Locked</span><span><i style="background:var(--unlocked)"></i>Unlocked</span><span><i style="background:var(--complete)"></i>Completed</span><span><i style="background:var(--almost)"></i>Near complete (2/3 Node · 4/5 Trial)</span><span><i style="background:var(--mastered)"></i>Fully completed</span></div>`;
  card.querySelector('.board-shell').appendChild(boardSvg(t.slug));card.querySelector('.editbtn').onclick=()=>codes[t.slug]?(delete codes[t.slug],renderTeams(),renderInspector()):openPass(t.slug);grid.appendChild(card)});
 }
 function select(team,type,id){selection={team,type,id};renderTeams();renderInspector()}
@@ -338,13 +339,13 @@ function renderInspector(){
   kicker.textContent=`${team.name} · ${finalStatus(team.slug).toUpperCase()}`;title.textContent='The Final Seal';
   if(!finalUnlocked(team.slug)){const pn=['P','Q','R','S','T'].filter(n=>nodeDone(team.slug,n)).length,tc=Object.keys(trials).filter(t=>trialDone(team.slug,t)).length;body.innerHTML=`<div class="sections"><div class="section"><h3>Locked</h3><div class="msg">Final Seal challenge information is hidden until P/Q/R/S/T and five Trials are complete.</div></div><div class="section"><h3>Unlock progress</h3><div class="msg">P/Q/R/S/T: ${pn}/5<br>Trials: ${tc}/5</div></div></div>`}
   else{
-   const won=finalChallengeCount(team.slug);let html=`<div class="msg" style="margin-top:10px"><b>Unlocked.</b> Complete any 3 challenges to win. Drops from before unlocking the Final Seal do not count.</div><div class="final-grid">`;
+   const won=finalChallengeCount(team.slug);let html=`<div class="msg" style="margin-top:10px"><b>Unlocked.</b> Complete all 6 challenges to win. Drops from before unlocking the Final Seal do not count.</div><div class="final-grid">`;
    for(const [slug,ch] of Object.entries(finalChallenges)){const cd=finalChallengeDone(team.slug,slug);let inner='';
     if(ch.special==='completionist'){const fn=Object.keys(nodes).filter(n=>nodeFull(team.slug,n)).length,mt=Object.keys(trials).filter(t=>trialMastered(team.slug,t)).length;inner=`<div class="msg">${fn}/25 fully levelled nodes · ${mt}/10 mastered Trials</div>`}
     else inner=ch.items.map((x,i)=>renderLeaf(team.slug,'final_seal',ch.name,{kind:'check',key:String(i),label:x})).join('');
     html+=`<div class="final-card ${cd?'done':''}"><h3>${ch.name}${cd?' ✓':''}</h3><div class="summary">${ch.rule}</div>${inner}</div>`;
    }
-   html+=`</div>${won>=3?`<div class="win-banner">🏆 ${team.name} has completed 3 Final Seal challenges — BINGO WON</div>`:`<div class="msg" style="margin-top:12px">Final Seal challenges completed: ${won}/3 required.</div>`}`;body.innerHTML=html;
+   html+=`</div>${won>=6?`<div class="win-banner">🏆 ${team.name} has completed all 6 Final Seal challenges — BINGO WON</div>`:`<div class="msg" style="margin-top:12px">Final Seal challenges completed: ${won}/6 required.</div>`}`;body.innerHTML=html;
   }
  }
  bindEditors(body);
